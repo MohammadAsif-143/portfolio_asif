@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+
+{% block title %}Page Not Found | 404{% endblock %}
+
+{% block content %}
+<div class="error-page-wrapper">
+    <div class="container text-center">
+        <div class="error-card glass-panel">
+            <span class="error-code text-gradient">404</span>
+            <h1 class="error-title">Inference Path Not Found</h1>
+            <p class="error-desc">
+                The requested neural endpoint or portfolio page does not exist or has been shifted in the embedding space.
+            </p>
+            <div class="error-actions">
+                <a href="{{ url_for('index') }}" class="btn btn-primary">
+                    <i class="fa-solid fa-house"></i> Return to Main Portfolio
+                </a>
+                <a href="{{ url_for('index') }}#projects" class="btn btn-outline">
+                    <i class="fa-solid fa-diagram-project"></i> View Projects
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

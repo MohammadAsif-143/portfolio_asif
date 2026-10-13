@@ -1,0 +1,693 @@
+{% extends "base.html" %}
+
+{% block title %}{{ profile.name }} | Data Scientist & AI/ML Engineer Portfolio{% endblock %}
+
+{% block content %}
+<!-- ==============================================
+     HERO SECTION
+============================================== -->
+<section class="hero-section" id="hero">
+    <div class="hero-glow hero-glow-1" aria-hidden="true"></div>
+    <div class="hero-glow hero-glow-2" aria-hidden="true"></div>
+
+    <div class="container hero-container">
+        <div class="hero-text-content">
+            <div class="hero-badge-wrapper">
+                <span class="status-badge">
+                    <span class="status-pulse"></span>
+                    {{ profile.status }}
+                </span>
+                <span class="location-badge">
+                    <i class="fa-solid fa-location-dot"></i> {{ profile.location }}
+                </span>
+            </div>
+
+            <h1 class="hero-title">
+                Hi, I'm <span class="highlight-name">{{ profile.name }}</span><br>
+                <span class="gradient-text">{{ profile.title }}</span>
+            </h1>
+
+            <p class="hero-description">
+                {{ profile.subtitle }}. I design and deploy production-grade neural networks,
+                intelligent retrieval pipelines, and high-throughput predictive algorithms that drive measurable
+                enterprise impact.
+            </p>
+
+            <div class="hero-cta-group">
+                <a href="#projects" class="btn btn-primary btn-lg">
+                    <i class="fa-solid fa-diagram-project"></i>
+                    <span>Explore ML Work</span>
+                </a>
+                <a href="#playground" class="btn btn-secondary btn-lg">
+                    <i class="fa-solid fa-bolt"></i>
+                    <span>Live ML Playground</span>
+                </a>
+                <a href="{{ url_for('resume_view') }}" class="btn btn-outline btn-lg">
+                    <i class="fa-solid fa-file-pdf"></i>
+                    <span>View CV</span>
+                </a>
+            </div>
+
+            <!-- Social Links & Profiles -->
+            <div class="hero-social-strip">
+                <span class="social-label">Connect:</span>
+                <a href="{{ 'https://github.com/MohammadAsif-143' }}" target="_blank" rel="noopener noreferrer"
+                    class="social-pill" title="GitHub Profile">
+                    <i class="fa-brands fa-github"></i>
+                    <span>GitHub</span>
+                </a>
+                <a href="{{ profile.linkedin }}" target="_blank" rel="noopener noreferrer" class="social-pill"
+                    title="LinkedIn Profile">
+                    <i class="fa-brands fa-linkedin"></i>
+                    <span>LinkedIn</span>
+                </a>
+                <a href="{{ profile.kaggle }}" target="_blank" rel="noopener noreferrer" class="social-pill"
+                    title="Kaggle Profile">
+                    <i class="fa-brands fa-kaggle"></i>
+                    <span>Kaggle</span>
+                </a>
+                <a href="mailto:{{ profile.email }}" class="social-pill" title="Send Email">
+                    <i class="fa-solid fa-envelope"></i>
+                    <span>Email</span>
+                </a>
+            </div>
+        </div>
+
+        <!-- Profile Visual Card -->
+        <div class="hero-visual-card">
+            <div class="avatar-glass-card glass-panel">
+                <div class="avatar-media-wrapper">
+                    <img src="{{ profile.avatar_image }}" alt="{{ profile.name }} - Data Scientist Portrait"
+                        class="avatar-img" width="460" height="460">
+                    <div class="avatar-overlay-chip chip-top-right">
+                        <i class="fa-solid fa-microchip"></i>
+                        <span>PyTorch &amp; Hugging Face</span>
+                    </div>
+                    <div class="avatar-overlay-chip chip-bottom-left">
+                        <i class="fa-solid fa-shield-halved"></i>
+                        <span>Production MLOps</span>
+                    </div>
+                </div>
+
+                <div class="avatar-card-info">
+                    <div class="avatar-card-header">
+                        <div>
+                            <h3 class="avatar-card-name">{{ profile.name }}</h3>
+                            <p class="avatar-card-role">{{ profile.title }}</p>
+                        </div>
+                        <span class="exp-pill">{{ profile.experience_years }} Yrs Exp</span>
+                    </div>
+
+                    <div class="tech-stack-row">
+                        <span class="tech-tag-sm"><i class="fa-brands fa-python"></i> Python</span>
+                        <span class="tech-tag-sm">PyTorch</span>
+                        <span class="tech-tag-sm">LLMs / RAG</span>
+                        <span class="tech-tag-sm">FastAPI/Flask</span>
+                        <span class="tech-tag-sm">Docker</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Quick Stats Bar -->
+    <div class="hero-stats-bar">
+        <div class="container stats-grid">
+            {% for metric in metrics %}
+            <div class="stat-item glass-panel">
+                <div class="stat-number-wrapper">
+                    <span class="stat-number" data-target="{{ metric.value }}">{{ metric.value }}</span>
+                    <span class="stat-suffix">{{ metric.suffix }}</span>
+                </div>
+                <div class="stat-label">{{ metric.label }}</div>
+                <div class="stat-subdetail">{{ metric.detail }}</div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</section>
+
+
+<!-- ==============================================
+     ABOUT & ENGINEERING PHILOSOPHY
+============================================== -->
+<section class="section about-section" id="about">
+    <div class="container">
+        <div class="section-header">
+            <span class="section-tag"><i class="fa-solid fa-user-astronaut"></i> Professional Background</span>
+            <h2 class="section-title">Architecting Intelligent Systems from <span class="gradient-text">Concept to
+                    Scale</span></h2>
+            <p class="section-subtitle">
+                Bridging the gap between cutting-edge academic research and robust, production-grade business
+                deployments.
+            </p>
+        </div>
+
+        <div class="about-grid">
+            <div class="about-narrative glass-panel">
+                <h3 class="about-heading">
+                    <i class="fa-solid fa-terminal text-cyan"></i> My Journey in Data Science &amp; AI
+                </h3>
+                <p>
+                    {{ profile.bio }}
+                </p>
+                <p>
+                    Throughout my career, I have engineered deep learning models for NLP and computer vision,
+                    architected low-latency vector retrieval engines (RAG) for enterprise knowledge bases,
+                    and optimized high-throughput predictive algorithms processing millions of daily transactions.
+                </p>
+                <p>
+                    I believe in <strong>reproducible data science</strong>: writing modular, clean code, tracking
+                    experiments
+                    rigorously with tools like MLflow, and building automated CI/CD pipelines to ensure seamless
+                    deployment
+                    with minimal operational friction.
+                </p>
+
+                <div class="about-actions">
+                    <a href="#contact" class="btn btn-primary">
+                        <i class="fa-solid fa-handshake"></i> Let's Collaborate
+                    </a>
+                    <button class="btn btn-outline" id="copy-email-btn" data-email="{{ profile.email }}">
+                        <i class="fa-regular fa-copy"></i> Copy Email
+                    </button>
+                </div>
+            </div>
+
+            <!-- Pillars of Practice -->
+            <div class="about-pillars">
+                <div class="pillar-card glass-panel">
+                    <div class="pillar-icon pillar-icon-violet">
+                        <i class="fa-solid fa-chart-line"></i>
+                    </div>
+                    <div>
+                        <h4 class="pillar-title">Statistical Rigor &amp; Modeling</h4>
+                        <p class="pillar-desc">
+                            Deep theoretical grounding in Bayesian inference, gradient boosting, transformers,
+                            and walk-forward cross validation to eliminate data leakage.
+                        </p>
+                    </div>
+                </div>
+
+                <div class="pillar-card glass-panel">
+                    <div class="pillar-icon pillar-icon-cyan">
+                        <i class="fa-solid fa-server"></i>
+                    </div>
+                    <div>
+                        <h4 class="pillar-title">Scalable MLOps &amp; Microservices</h4>
+                        <p class="pillar-desc">
+                            Containerizing PyTorch/ONNX models into containerized Flask/FastAPI microservices,
+                            automated GPU scaling, and active model drift tracking.
+                        </p>
+                    </div>
+                </div>
+
+                <div class="pillar-card glass-panel">
+                    <div class="pillar-icon pillar-icon-emerald">
+                        <i class="fa-solid fa-bullseye"></i>
+                    </div>
+                    <div>
+                        <h4 class="pillar-title">Business &amp; ROI Centric</h4>
+                        <p class="pillar-desc">
+                            Direct alignment of machine learning metrics (AUC, F1, latency) with business metrics
+                            such as customer retention, cost reduction, and automated throughput.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+
+<!-- ==============================================
+     SKILLS MATRIX SECTION
+============================================== -->
+<section class="section skills-section" id="skills">
+    <div class="container">
+        <div class="section-header">
+            <span class="section-tag"><i class="fa-solid fa-layer-group"></i> Technical Arsenal</span>
+            <h2 class="section-title">Specialized Skills &amp; <span class="gradient-text">Core Competencies</span></h2>
+            <p class="section-subtitle">
+                A structured breakdown of my technical stack across machine learning, generative AI, cloud, and
+                engineering.
+            </p>
+        </div>
+
+        <div class="skills-grid">
+            {% for category in skills %}
+            <div class="skill-category-card glass-panel">
+                <div class="skill-cat-header">
+                    <div class="skill-cat-icon">
+                        {% if category.icon == 'brain' %}
+                        <i class="fa-solid fa-brain"></i>
+                        {% elif category.icon == 'sparkles' %}
+                        <i class="fa-solid fa-wand-magic-sparkles"></i>
+                        {% elif category.icon == 'eye' %}
+                        <i class="fa-solid fa-eye"></i>
+                        {% elif category.icon == 'database' %}
+                        <i class="fa-solid fa-database"></i>
+                        {% else %}
+                        <i class="fa-solid fa-cloud"></i>
+                        {% endif %}
+                    </div>
+                    <h3 class="skill-cat-title">{{ category.name }}</h3>
+                </div>
+
+                <div class="skill-list">
+                    {% for item in category.skills %}
+                    <div class="skill-item">
+                        <div class="skill-item-info">
+                            <span class="skill-item-name">{{ item.name }}</span>
+                            <span class="skill-item-pct">{{ item.level }}%</span>
+                        </div>
+                        <div class="skill-bar-bg">
+                            <div class="skill-bar-fill" style="--skill-pct: {{ item.level }}%;"></div>
+                        </div>
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</section>
+
+
+<!-- ==============================================
+     INTERACTIVE PROJECT GALLERY
+============================================== -->
+<section class="section projects-section" id="projects">
+    <div class="container">
+        <div class="section-header">
+            <span class="section-tag"><i class="fa-solid fa-diagram-project"></i> Portfolio Showcase</span>
+            <h2 class="section-title">Production Work &amp; <span class="gradient-text">Featured ML Projects</span></h2>
+            <p class="section-subtitle">
+                Explore case studies with live modal deep-dives detailing dataset complexity, neural architectures, and
+                quantifiable impact.
+            </p>
+        </div>
+
+        <!-- Filter Controls & Search Bar -->
+        <div class="project-toolbar glass-panel">
+            <div class="filter-tabs" id="filter-tabs" role="tablist">
+                {% for cat in categories %}
+                <button class="filter-tab {% if cat.id == 'all' %}active{% endif %}" data-filter="{{ cat.id }}"
+                    role="tab" aria-selected="{% if cat.id == 'all' %}true{% else %}false{% endif %}"
+                    id="tab-{{ cat.id }}">
+                    <span>{{ cat.label }}</span>
+                    <span class="tab-badge">{{ cat.count }}</span>
+                </button>
+                {% endfor %}
+            </div>
+
+            <div class="project-search-box">
+                <i class="fa-solid fa-magnifying-glass search-icon"></i>
+                <input type="text" id="project-search-input" placeholder="Search by tech (e.g. PyTorch, LLM, Vision)..."
+                    aria-label="Search projects">
+                <button type="button" id="search-clear-btn" class="search-clear-btn" aria-label="Clear search"
+                    style="display:none;">&times;</button>
+            </div>
+        </div>
+
+        <!-- Project Grid -->
+        <div class="projects-grid" id="projects-grid">
+            {% for project in projects %}
+            <article class="project-card glass-panel" data-category="{{ project.category }}" data-id="{{ project.id }}">
+                <div class="project-media">
+                    <img src="{{ project.image }}" alt="{{ project.title }}" loading="lazy" class="project-img"
+                        width="600" height="340">
+                    <div class="project-category-badge">{{ project.category_name }}</div>
+                    {% if project.featured %}
+                    <div class="project-featured-badge"><i class="fa-solid fa-star"></i> Featured</div>
+                    {% endif %}
+                </div>
+
+                <div class="project-body">
+                    <div class="project-metrics-chip">
+                        <i class="fa-solid fa-chart-simple"></i>
+                        <span>{{ project.metrics }}</span>
+                    </div>
+
+                    <h3 class="project-title">{{ project.title }}</h3>
+                    <p class="project-summary">{{ project.summary }}</p>
+
+                    <div class="project-tags">
+                        {% for tag in project.tags %}
+                        <span class="tag-pill">{{ tag }}</span>
+                        {% endfor %}
+                    </div>
+
+                    <div class="project-actions">
+                        <button class="btn btn-primary btn-sm open-modal-btn" data-project-id="{{ project.id }}">
+                            <i class="fa-solid fa-layer-group"></i> Architecture &amp; Deep Dive
+                        </button>
+                        <a href="{{ url_for('project_detail', project_id=project.id) }}" class="btn btn-outline btn-sm"
+                            title="View standalone case study page">
+                            <i class="fa-solid fa-arrow-up-right-from-square"></i> Details
+                        </a>
+                    </div>
+                </div>
+            </article>
+            {% endfor %}
+        </div>
+
+        <div id="no-projects-message" class="no-projects-message glass-panel" style="display: none;">
+            <i class="fa-solid fa-filter-circle-xmark"></i>
+            <h3>No projects match your filter</h3>
+            <p>Try selecting a different category or clearing the search query.</p>
+            <button class="btn btn-secondary btn-sm" onclick="resetFilters()">Reset Filters</button>
+        </div>
+    </div>
+</section>
+
+
+<!-- ==============================================
+     INTERACTIVE LIVE ML PLAYGROUND
+============================================== -->
+<section class="section playground-section" id="playground">
+    <div class="container">
+        <div class="section-header">
+            <span class="section-tag"><i class="fa-solid fa-bolt"></i> Interactive Demonstration</span>
+            <h2 class="section-title">Live ML Inference <span class="gradient-text">Engine Simulator</span></h2>
+            <p class="section-subtitle">
+                Test a real-time Flask inference endpoint. Adjust model input parameters and observe dynamic probability
+                calibrations, latencies, and feature attribution.
+            </p>
+        </div>
+
+        <div class="playground-layout glass-panel">
+            <!-- Left: Controls -->
+            <div class="playground-controls">
+                <div class="playground-card-title">
+                    <i class="fa-solid fa-sliders text-cyan"></i>
+                    <span>Inference Parameters</span>
+                </div>
+
+                <div class="control-group">
+                    <label class="control-label" for="ml-task-select">Target Task Domain:</label>
+                    <select id="ml-task-select" class="form-input">
+                        <option value="risk_classification">Quantitative Risk &amp; Anomaly Classification</option>
+                        <option value="nlp_sentiment">LLM Semantic Intent &amp; Urgency Classification</option>
+                        <option value="anomaly_detection">Telemetry Anomaly &amp; Zero-Day Detection</option>
+                    </select>
+                </div>
+
+                <div class="control-group">
+                    <div class="slider-header">
+                        <label for="feature-a" id="label-feat-a">Feature Magnitude / Depth:</label>
+                        <span class="slider-val" id="val-feat-a">75</span>
+                    </div>
+                    <input type="range" id="feature-a" min="10" max="100" value="75" class="slider-input">
+                </div>
+
+                <div class="control-group">
+                    <div class="slider-header">
+                        <label for="feature-b" id="label-feat-b">Sequence Volatility / Context:</label>
+                        <span class="slider-val" id="val-feat-b">45</span>
+                    </div>
+                    <input type="range" id="feature-b" min="10" max="100" value="45" class="slider-input">
+                </div>
+
+                <div class="control-group">
+                    <div class="slider-header">
+                        <label for="feature-c" id="label-feat-c">Bayesian Confidence Threshold:</label>
+                        <span class="slider-val" id="val-feat-c">90</span>
+                    </div>
+                    <input type="range" id="feature-c" min="10" max="100" value="90" class="slider-input">
+                </div>
+
+                <button class="btn btn-primary btn-block" id="run-inference-btn">
+                    <i class="fa-solid fa-play"></i> Run Flask Model Inference
+                </button>
+            </div>
+
+            <!-- Right: Live Output Dashboard -->
+            <div class="playground-results">
+                <div class="playground-card-title">
+                    <i class="fa-solid fa-chart-pie text-violet"></i>
+                    <span>Inference Output Telemetry</span>
+                    <span class="live-dot"><i class="fa-solid fa-circle"></i> Live API</span>
+                </div>
+
+                <div class="results-top-strip">
+                    <div class="result-metric-card">
+                        <span class="res-label">Predicted Class</span>
+                        <span class="res-value text-gradient" id="res-prediction">Low Risk / High Confidence</span>
+                    </div>
+                    <div class="result-metric-card">
+                        <span class="res-label">Confidence Score</span>
+                        <span class="res-value" id="res-confidence">84.2%</span>
+                    </div>
+                    <div class="result-metric-card">
+                        <span class="res-label">Endpoint Latency</span>
+                        <span class="res-value text-cyan" id="res-latency">11.4 ms</span>
+                    </div>
+                </div>
+
+                <!-- Probability Distribution Bars -->
+                <div class="probability-distribution-box">
+                    <h4 class="prob-title">Softmax Probability Calibration</h4>
+                    <div id="prob-bars-container">
+                        <!-- Populated dynamically via JS -->
+                        <div class="prob-row">
+                            <span class="prob-name">Low Risk / High Confidence</span>
+                            <div class="prob-track">
+                                <div class="prob-fill prob-fill-emerald" style="width: 84.2%;"></div>
+                            </div>
+                            <span class="prob-num">84.2%</span>
+                        </div>
+                        <div class="prob-row">
+                            <span class="prob-name">Medium Variance</span>
+                            <div class="prob-track">
+                                <div class="prob-fill prob-fill-cyan" style="width: 12.1%;"></div>
+                            </div>
+                            <span class="prob-num">12.1%</span>
+                        </div>
+                        <div class="prob-row">
+                            <span class="prob-name">High Risk / Review Needed</span>
+                            <div class="prob-track">
+                                <div class="prob-fill prob-fill-violet" style="width: 3.7%;"></div>
+                            </div>
+                            <span class="prob-num">3.7%</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="architecture-telemetry-badge">
+                    <i class="fa-solid fa-microchip"></i>
+                    <span>Backend Pipeline: Flask REST &bull; Numpy Vectorization &bull; Calibrated Ensemble</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+
+<!-- ==============================================
+     WORK EXPERIENCE & CAREER TIMELINE
+============================================== -->
+<section class="section experience-section" id="experience">
+    <div class="container">
+        <div class="section-header">
+            <span class="section-tag"><i class="fa-solid fa-briefcase"></i> Track Record</span>
+            <h2 class="section-title">Professional Experience &amp; <span class="gradient-text">Leadership</span></h2>
+            <p class="section-subtitle">
+                Demonstrated success in building, scaling, and managing mission-critical AI applications in production
+                environments.
+            </p>
+        </div>
+
+        <div class="timeline">
+            {% for exp in experiences %}
+            <div class="timeline-item">
+                <div class="timeline-marker">
+                    <div class="marker-dot"></div>
+                </div>
+
+                <div class="timeline-card glass-panel">
+                    <div class="timeline-header">
+                        <div>
+                            <h3 class="timeline-role">{{ exp.role }}</h3>
+                            <h4 class="timeline-company">
+                                <i class="fa-regular fa-building"></i> {{ exp.company }} &bull; <span
+                                    class="timeline-loc">{{ exp.location }}</span>
+                            </h4>
+                        </div>
+                        <span class="timeline-period-badge">{{ exp.period }}</span>
+                    </div>
+
+                    <p class="timeline-desc">{{ exp.description }}</p>
+
+                    <div class="timeline-achievements">
+                        <h5 class="achieve-title">Key Technical Deliverables:</h5>
+                        <ul>
+                            {% for item in exp.achievements %}
+                            <li><i class="fa-solid fa-check text-cyan"></i> <span>{{ item }}</span></li>
+                            {% endfor %}
+                        </ul>
+                    </div>
+
+                    <div class="timeline-tags">
+                        {% for tech in exp.technologies %}
+                        <span class="tech-tag-sm">{{ tech }}</span>
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+
+        <!-- Education & Certifications Row -->
+        <div class="credentials-row">
+            <div class="cred-col glass-panel">
+                <div class="cred-header">
+                    <i class="fa-solid fa-graduation-cap cred-icon text-cyan"></i>
+                    <h3 class="cred-title">Education</h3>
+                </div>
+                {% for edu in education %}
+                <div class="cred-item">
+                    <h4 class="cred-item-title">{{ edu.degree }}</h4>
+                    <p class="cred-item-subtitle">{{ edu.institution }} &bull; {{ edu.period }}</p>
+                    <span class="cred-badge">{{ edu.grade }}</span>
+                    <p class="cred-item-detail">{{ edu.details }}</p>
+                </div>
+                {% endfor %}
+            </div>
+
+            <div class="cred-col glass-panel">
+                <div class="cred-header">
+                    <i class="fa-solid fa-award cred-icon text-violet"></i>
+                    <h3 class="cred-title">Certifications &amp; Credentials</h3>
+                </div>
+                <div class="cert-grid">
+                    {% for cert in certifications %}
+                    <div class="cert-card">
+                        <div class="cert-badge-icon"><i class="fa-solid fa-certificate"></i></div>
+                        <div>
+                            <h4 class="cert-name">{{ cert.title }}</h4>
+                            <p class="cert-meta">{{ cert.issuer }} &bull; {{ cert.year }}</p>
+                        </div>
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+
+<!-- ==============================================
+     CONTACT SECTION
+============================================== -->
+<section class="section contact-section" id="contact">
+    <div class="container">
+        <div class="section-header">
+            <span class="section-tag"><i class="fa-solid fa-envelope-open-text"></i> Initiate Contact</span>
+            <h2 class="section-title">Let's Discuss <span class="gradient-text">High-Impact Opportunities</span></h2>
+            <p class="section-subtitle">
+                Whether you have an open Data Science role, consulting inquiry, or machine learning challenge, I'd love
+                to connect.
+            </p>
+        </div>
+
+        <div class="contact-grid">
+            <!-- Contact Info Cards -->
+            <div class="contact-info-col">
+                <div class="contact-info-card glass-panel">
+                    <div class="contact-icon-box"><i class="fa-solid fa-envelope"></i></div>
+                    <div>
+                        <span class="c-label">Direct Email</span>
+                        <a href="mailto:{{ profile.email }}" class="c-val">{{ profile.email }}</a>
+                    </div>
+                </div>
+
+                <div class="contact-info-card glass-panel">
+                    <div class="contact-icon-box"><i class="fa-brands fa-linkedin-in"></i></div>
+                    <div>
+                        <span class="c-label">Professional Network</span>
+                        <a href="{{ profile.linkedin }}" target="_blank" rel="noopener noreferrer" class="c-val">Connect
+                            on LinkedIn</a>
+                    </div>
+                </div>
+
+                <div class="contact-info-card glass-panel">
+                    <div class="contact-icon-box"><i class="fa-brands fa-github"></i></div>
+                    <div>
+                        <span class="c-label">Code Repositories</span>
+                        <a href="{{ profile.github }}" target="_blank" rel="noopener noreferrer" class="c-val">Explore
+                            GitHub Portfolio</a>
+                    </div>
+                </div>
+
+                <div class="contact-info-card glass-panel">
+                    <div class="contact-icon-box"><i class="fa-solid fa-location-dot"></i></div>
+                    <div>
+                        <span class="c-label">Based In</span>
+                        <span class="c-val">{{ profile.location }}</span>
+                    </div>
+                </div>
+
+                <!-- Fast Resume Download CTA -->
+                <div class="resume-cta-box glass-panel">
+                    <div class="resume-cta-content">
+                        <h4>Download Printable Resume</h4>
+                        <p>Detailed ATS-optimized CV with full publication and project history.</p>
+                    </div>
+                    <a href="{{ url_for('resume_view') }}" class="btn btn-secondary btn-block">
+                        <i class="fa-solid fa-download"></i> View &amp; Print Resume
+                    </a>
+                </div>
+            </div>
+
+            <!-- Working Contact Form -->
+            <div class="contact-form-col glass-panel">
+                <h3 class="form-title">
+                    <i class="fa-solid fa-paper-plane text-cyan"></i> Send a Direct Message
+                </h3>
+                <p class="form-desc">Fill in the details below and I'll receive your message directly.</p>
+
+                <form id="contact-form" action="{{ url_for('contact') }}" method="POST" novalidate>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="contact-name" class="form-label">Your Name <span class="req">*</span></label>
+                            <input type="text" id="contact-name" name="name" class="form-input"
+                                placeholder="e.g. Sarah Jenkins" required>
+                            <span class="field-error" id="name-error"></span>
+                        </div>
+                        <div class="form-group">
+                            <label for="contact-email" class="form-label">Email Address <span
+                                    class="req">*</span></label>
+                            <input type="email" id="contact-email" name="email" class="form-input"
+                                placeholder="sarah@company.com" required>
+                            <span class="field-error" id="email-error"></span>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="contact-subject" class="form-label">Subject / Topic</label>
+                        <input type="text" id="contact-subject" name="subject" class="form-input"
+                            placeholder="Senior Data Scientist Role / Machine Learning Consultation">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="contact-message" class="form-label">Message Details <span
+                                class="req">*</span></label>
+                        <textarea id="contact-message" name="message" rows="5" class="form-input form-textarea"
+                            placeholder="Describe the opportunity, technical domain, or project scope..."
+                            required></textarea>
+                        <span class="field-error" id="message-error"></span>
+                    </div>
+
+                    <button type="submit" class="btn btn-primary btn-block btn-lg" id="submit-contact-btn">
+                        <i class="fa-solid fa-paper-plane"></i>
+                        <span>Transmit Message</span>
+                    </button>
+
+                    <div id="contact-feedback" class="contact-feedback" style="display:none;"></div>
+                </form>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}

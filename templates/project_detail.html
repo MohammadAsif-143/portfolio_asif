@@ -1,0 +1,140 @@
+{% extends "base.html" %}
+
+{% block title %}{{ project.title }} | Case Study | {{ profile.name }}{% endblock %}
+
+{% block content %}
+<article class="project-detail-page">
+    <div class="container detail-container">
+        <!-- Breadcrumb / Back Link -->
+        <div class="detail-top-nav">
+            <a href="{{ url_for('index') }}#projects" class="back-link">
+                <i class="fa-solid fa-arrow-left"></i> Back to All Projects
+            </a>
+            <span class="detail-category-pill">{{ project.category_name }}</span>
+        </div>
+
+        <!-- Header -->
+        <header class="detail-header">
+            <h1 class="detail-title">{{ project.title }}</h1>
+            <p class="detail-summary-lead">{{ project.summary }}</p>
+
+            <div class="detail-metrics-banner glass-panel">
+                <div class="metrics-banner-item">
+                    <i class="fa-solid fa-gauge-high text-cyan"></i>
+                    <div>
+                        <span class="metric-lead-label">Performance Metric</span>
+                        <strong class="metric-lead-val">{{ project.metrics }}</strong>
+                    </div>
+                </div>
+                <div class="metrics-banner-item">
+                    <i class="fa-solid fa-database text-violet"></i>
+                    <div>
+                        <span class="metric-lead-label">Dataset Scale</span>
+                        <strong class="metric-lead-val">{{ project.dataset }}</strong>
+                    </div>
+                </div>
+            </div>
+        </header>
+
+        <!-- Main Media Showcase -->
+        <div class="detail-media-showcase glass-panel">
+            <img src="{{ project.image }}" alt="{{ project.title }} Dashboard &amp; Architecture" class="detail-hero-img" width="1200" height="675">
+        </div>
+
+        <!-- Content Grid: Technical Deep Dive -->
+        <div class="detail-content-grid">
+            <div class="detail-main-col">
+                <!-- Architecture Section -->
+                <section class="detail-block glass-panel">
+                    <h2 class="detail-block-title">
+                        <i class="fa-solid fa-network-wired text-cyan"></i> System Pipeline Architecture
+                    </h2>
+                    <p class="architecture-flow-text">
+                        {{ project.architecture }}
+                    </p>
+                    <div class="architecture-visual-box">
+                        <div class="arch-step"><span class="step-num">01</span> Ingestion &amp; Feature Store</div>
+                        <div class="arch-arrow"><i class="fa-solid fa-chevron-right"></i></div>
+                        <div class="arch-step"><span class="step-num">02</span> Vector Index / Embeddings</div>
+                        <div class="arch-arrow"><i class="fa-solid fa-chevron-right"></i></div>
+                        <div class="arch-step"><span class="step-num">03</span> Neural Inference Engine</div>
+                        <div class="arch-arrow"><i class="fa-solid fa-chevron-right"></i></div>
+                        <div class="arch-step"><span class="step-num">04</span> Low Latency API</div>
+                    </div>
+                </section>
+
+                <!-- Technical Highlights -->
+                <section class="detail-block glass-panel">
+                    <h2 class="detail-block-title">
+                        <i class="fa-solid fa-list-check text-violet"></i> Engineering Challenges &amp; Solutions
+                    </h2>
+                    <ul class="detail-highlights-list">
+                        {% for highlight in project.highlights %}
+                        <li>
+                            <i class="fa-solid fa-circle-check text-emerald"></i>
+                            <span>{{ highlight }}</span>
+                        </li>
+                        {% endfor %}
+                    </ul>
+                </section>
+            </div>
+
+            <!-- Sidebar Info Col -->
+            <aside class="detail-sidebar-col">
+                <div class="sidebar-card glass-panel">
+                    <h3 class="sidebar-title">Tech Stack &amp; Libraries</h3>
+                    <div class="project-tags">
+                        {% for tag in project.tags %}
+                        <span class="tag-pill">{{ tag }}</span>
+                        {% endfor %}
+                    </div>
+                </div>
+
+                <div class="sidebar-card glass-panel">
+                    <h3 class="sidebar-title">Deployment Environment</h3>
+                    <p class="sidebar-text"><strong>Runtime:</strong> {{ project.tech_stack }}</p>
+                    <p class="sidebar-text"><strong>Domain:</strong> {{ project.category_name }}</p>
+                </div>
+
+                <div class="sidebar-card glass-panel">
+                    <h3 class="sidebar-title">Project Actions</h3>
+                    <div class="sidebar-btn-group">
+                        <a href="{{ project.github_url }}" target="_blank" rel="noopener noreferrer" class="btn btn-outline btn-block">
+                            <i class="fa-brands fa-github"></i> View GitHub Repository
+                        </a>
+                        <a href="{{ url_for('index') }}#playground" class="btn btn-primary btn-block">
+                            <i class="fa-solid fa-bolt"></i> Test in ML Playground
+                        </a>
+                    </div>
+                </div>
+            </aside>
+        </div>
+
+        <!-- Related Projects -->
+        {% if related %}
+        <section class="related-projects-section">
+            <h2 class="section-title">Explore Related <span class="gradient-text">ML Work</span></h2>
+            <div class="projects-grid">
+                {% for p in related %}
+                <article class="project-card glass-panel" data-category="{{ p.category }}" data-id="{{ p.id }}">
+                    <div class="project-media">
+                        <img src="{{ p.image }}" alt="{{ p.title }}" loading="lazy" class="project-img" width="600" height="340">
+                        <div class="project-category-badge">{{ p.category_name }}</div>
+                    </div>
+                    <div class="project-body">
+                        <h3 class="project-title">{{ p.title }}</h3>
+                        <p class="project-summary">{{ p.summary }}</p>
+                        <div class="project-actions">
+                            <a href="{{ url_for('project_detail', project_id=p.id) }}" class="btn btn-primary btn-sm">
+                                Read Case Study <i class="fa-solid fa-arrow-right"></i>
+                            </a>
+                        </div>
+                    </div>
+                </article>
+                {% endfor %}
+            </div>
+        </section>
+        {% endif %}
+    </div>
+</article>
+{% endblock %}

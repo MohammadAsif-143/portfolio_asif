@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+
+{% block title %}Internal Server Error | 500{% endblock %}
+
+{% block content %}
+<div class="error-page-wrapper">
+    <div class="container text-center">
+        <div class="error-card glass-panel">
+            <span class="error-code text-gradient">500</span>
+            <h1 class="error-title">Unexpected Gradient Exploded</h1>
+            <p class="error-desc">
+                An internal server exception occurred while processing this request. The telemetry logs have recorded this event.
+            </p>
+            <div class="error-actions">
+                <a href="{{ url_for('index') }}" class="btn btn-primary">
+                    <i class="fa-solid fa-house"></i> Return to Main Portfolio
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

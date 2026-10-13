@@ -1,0 +1,121 @@
+{% extends "base.html" %}
+
+{% block title %}Resume | {{ profile.name }} - {{ profile.title }}{% endblock %}
+
+{% block content %}
+<div class="resume-page-wrapper">
+    <div class="container resume-container">
+        <!-- Action bar (Print / Download / Back) -->
+        <div class="resume-action-bar no-print glass-panel">
+            <a href="{{ url_for('index') }}" class="back-link">
+                <i class="fa-solid fa-arrow-left"></i> Return to Interactive Portfolio
+            </a>
+            <div class="resume-bar-buttons">
+                <button onclick="window.print()" class="btn btn-primary btn-sm">
+                    <i class="fa-solid fa-print"></i> Print / Save as PDF
+                </button>
+            </div>
+        </div>
+
+        <!-- Printable Resume Document Paper -->
+        <div class="resume-sheet glass-panel" id="resume-sheet">
+            <!-- Header -->
+            <header class="resume-header">
+                <div>
+                    <h1 class="resume-name">{{ profile.name }}</h1>
+                    <h2 class="resume-role-title">{{ profile.title }}</h2>
+                    <p class="resume-tagline-text">{{ profile.subtitle }}</p>
+                </div>
+
+                <div class="resume-contact-block">
+                    <div><i class="fa-solid fa-envelope"></i> {{ profile.email }}</div>
+                    <div><i class="fa-solid fa-location-dot"></i> {{ profile.location }}</div>
+                    <div><i class="fa-brands fa-linkedin"></i> LinkedIn: /in/asif-j</div>
+                    <div><i class="fa-brands fa-github"></i> GitHub: github.com</div>
+                </div>
+            </header>
+
+            <hr class="resume-divider">
+
+            <!-- Summary -->
+            <section class="resume-section">
+                <h3 class="resume-sec-title">Executive Summary</h3>
+                <p class="resume-summary-text">
+                    {{ profile.bio }}
+                </p>
+            </section>
+
+            <!-- Skills -->
+            <section class="resume-section">
+                <h3 class="resume-sec-title">Core Technical Competencies</h3>
+                <div class="resume-skills-grid">
+                    {% for cat in skills %}
+                    <div class="resume-skill-cat">
+                        <strong>{{ cat.name }}:</strong>
+                        <span>{% for s in cat.skills %}{{ s.name }}{% if not loop.last %}, {% endif %}{% endfor %}</span>
+                    </div>
+                    {% endfor %}
+                </div>
+            </section>
+
+            <!-- Experience -->
+            <section class="resume-section">
+                <h3 class="resume-sec-title">Professional Experience</h3>
+                {% for exp in experiences %}
+                <div class="resume-exp-item">
+                    <div class="resume-exp-head">
+                        <div>
+                            <strong class="resume-exp-role">{{ exp.role }}</strong> &bull; <span class="resume-exp-comp">{{ exp.company }}</span>
+                        </div>
+                        <span class="resume-exp-period">{{ exp.period }} | {{ exp.location }}</span>
+                    </div>
+                    <ul class="resume-bullets">
+                        {% for ach in exp.achievements %}
+                        <li>{{ ach }}</li>
+                        {% endfor %}
+                    </ul>
+                </div>
+                {% endfor %}
+            </section>
+
+            <!-- Key Production Projects -->
+            <section class="resume-section">
+                <h3 class="resume-sec-title">Key Machine Learning &amp; AI Implementations</h3>
+                {% for p in projects %}
+                <div class="resume-project-item">
+                    <div class="resume-exp-head">
+                        <strong>{{ p.title }}</strong>
+                        <span class="resume-proj-meta">{{ p.metrics }}</span>
+                    </div>
+                    <p class="resume-proj-summary">{{ p.summary }}</p>
+                    <p class="resume-proj-tags"><em>Stack: {{ p.tech_stack }}</em></p>
+                </div>
+                {% endfor %}
+            </section>
+
+            <!-- Education & Certifications -->
+            <section class="resume-section resume-two-col">
+                <div>
+                    <h3 class="resume-sec-title">Education</h3>
+                    {% for edu in education %}
+                    <div>
+                        <strong>{{ edu.degree }}</strong>
+                        <p>{{ edu.institution }} &bull; {{ edu.period }}</p>
+                        <p><em>{{ edu.grade }}</em></p>
+                    </div>
+                    {% endfor %}
+                </div>
+
+                <div>
+                    <h3 class="resume-sec-title">Certifications</h3>
+                    <ul class="resume-cert-list">
+                        {% for cert in certifications %}
+                        <li><strong>{{ cert.title }}</strong> ({{ cert.issuer }}, {{ cert.year }})</li>
+                        {% endfor %}
+                    </ul>
+                </div>
+            </section>
+        </div>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}{{ profile.name }} | {{ profile.title }}{% endblock %}</title>
+    
+    <!-- SEO Meta Tags -->
+    <meta name="description" content="{{ profile.name }} - {{ profile.title }}. {{ profile.subtitle }}. Explore featured projects in Deep Learning, NLP, Computer Vision, and predictive systems.">
+    <meta name="keywords" content="Data Scientist, AI Engineer, Machine Learning, PyTorch, Deep Learning, NLP, LLM, Computer Vision, MLOps, Asif J">
+    <meta name="author" content="{{ profile.name }}">
+    
+    <!-- Open Graph / Social Sharing -->
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="{{ profile.name }} | {{ profile.title }}">
+    <meta property="og:description" content="{{ profile.subtitle }}">
+    <meta property="og:image" content="{{ profile.avatar_image }}">
+    
+    <!-- Google Fonts: Plus Jakarta Sans & JetBrains Mono -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:ital,wght@0,300;0,400;0,500;0,700;1,400&family=Plus+Jakarta+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,400;1,600&display=swap" rel="stylesheet">
+    
+    <!-- Font Awesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    
+    <!-- Favicon (SVG Data URI) -->
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🧠</text></svg>">
+    
+    {% block extra_head %}{% endblock %}
+</head>
+<body class="dark-theme">
+    <!-- Ambient Particle / Mesh Canvas -->
+    <canvas id="ambient-canvas" class="ambient-canvas" aria-hidden="true"></canvas>
+
+    <!-- Navigation Header -->
+    <header class="site-header" id="site-header">
+        <nav class="nav-container">
+            <a href="{{ url_for('index') }}" class="nav-brand" id="brand-logo" aria-label="Home">
+                <span class="brand-badge">&lt;AJ/&gt;</span>
+                <span class="brand-text">
+                    <span class="brand-name">{{ profile.name }}</span>
+                    <span class="brand-role">AI / ML Engineer</span>
+                </span>
+            </a>
+
+            <!-- Desktop Nav Menu -->
+            <div class="nav-links" id="nav-links">
+                <a href="{{ url_for('index') }}#about" class="nav-link">About</a>
+                <a href="{{ url_for('index') }}#skills" class="nav-link">Skills</a>
+                <a href="{{ url_for('index') }}#projects" class="nav-link">Projects</a>
+                <a href="{{ url_for('index') }}#playground" class="nav-link">Live ML Demo</a>
+                <a href="{{ url_for('index') }}#experience" class="nav-link">Experience</a>
+                <a href="{{ url_for('index') }}#contact" class="nav-link">Contact</a>
+            </div>
+
+            <!-- Header Actions -->
+            <div class="nav-actions">
+                <a href="{{ url_for('resume_view') }}" class="btn btn-outline btn-sm nav-cv-btn" id="header-cv-btn">
+                    <i class="fa-solid fa-file-invoice"></i>
+                    <span>Resume</span>
+                </a>
+                <a href="{{ url_for('index') }}#contact" class="btn btn-primary btn-sm nav-cta-btn" id="header-contact-btn">
+                    <i class="fa-solid fa-paper-plane"></i>
+                    <span>Hire Me</span>
+                </a>
+                <!-- Mobile Hamburger Toggle -->
+                <button class="menu-toggle" id="menu-toggle" aria-label="Toggle navigation menu" aria-expanded="false">
+                    <span class="bar"></span>
+                    <span class="bar"></span>
+                    <span class="bar"></span>
+                </button>
+            </div>
+        </nav>
+    </header>
+
+    <!-- Flash Notifications Container -->
+    {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+            <div class="flash-messages-container" id="flash-container">
+                {% for category, message in messages %}
+                    <div class="flash-alert flash-{{ category }}" role="alert">
+                        <i class="fa-solid {% if category == 'success' %}fa-circle-check{% elif category == 'error' %}fa-circle-xmark{% else %}fa-circle-info{% endif %}"></i>
+                        <span>{{ message }}</span>
+                        <button type="button" class="flash-close" onclick="this.parentElement.remove()" aria-label="Close alert">&times;</button>
+                    </div>
+                {% endfor %}
+            </div>
+        {% endif %}
+    {% endwith %}
+
+    <!-- Main Content -->
+    <main id="main-content">
+        {% block content %}{% endblock %}
+    </main>
+
+    <!-- Global Interactive Project Modal -->
+    <div class="modal-overlay" id="project-modal" aria-hidden="true" role="dialog" aria-labelledby="modal-title">
+        <div class="modal-dialog glass-panel">
+            <button class="modal-close-btn" id="modal-close-btn" aria-label="Close details">
+                <i class="fa-solid fa-xmark"></i>
+            </button>
+            
+            <div class="modal-content" id="modal-content-body">
+                <!-- Dynamically populated via JS -->
+                <div class="modal-loading-spinner">
+                    <i class="fa-solid fa-circle-notch fa-spin"></i>
+                    <p>Loading project architecture...</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Toast Notification for dynamic interactions -->
+    <div class="toast-notification" id="toast" role="status" aria-live="polite">
+        <div class="toast-icon" id="toast-icon"><i class="fa-solid fa-check"></i></div>
+        <div class="toast-text" id="toast-message">Copied to clipboard</div>
+    </div>
+
+    <!-- Site Footer -->
+    <footer class="site-footer">
+        <div class="footer-glow" aria-hidden="true"></div>
+        <div class="footer-container">
+            <div class="footer-top">
+                <div class="footer-brand">
+                    <div class="footer-logo">
+                        <span class="brand-badge">&lt;AJ/&gt;</span>
+                        <span class="footer-title">{{ profile.name }}</span>
+                    </div>
+                    <p class="footer-tagline">
+                        {{ profile.title }} • Architecting scalable machine learning and deep generative AI systems for enterprise production.
+                    </p>
+                    <div class="footer-status-pill">
+                        <span class="status-indicator-dot"></span>
+                        <span>{{ profile.status }}</span>
+                    </div>
+                </div>
+
+                <div class="footer-links-group">
+                    <div class="footer-column">
+                        <h4 class="footer-col-title">Navigation</h4>
+                        <ul class="footer-list">
+                            <li><a href="{{ url_for('index') }}#about">About Asif</a></li>
+                            <li><a href="{{ url_for('index') }}#skills">Skills Matrix</a></li>
+                            <li><a href="{{ url_for('index') }}#projects">Featured Projects</a></li>
+                            <li><a href="{{ url_for('index') }}#playground">Live ML Playground</a></li>
+                            <li><a href="{{ url_for('index') }}#experience">Career Timeline</a></li>
+                        </ul>
+                    </div>
+
+                    <div class="footer-column">
+                        <h4 class="footer-col-title">ML Focus Areas</h4>
+                        <ul class="footer-list">
+                            <li><span>Large Language Models & RAG</span></li>
+                            <li><span>Computer Vision & Edge AI</span></li>
+                            <li><span>High-Scale Predictive Analytics</span></li>
+                            <li><span>MLOps & Automated Pipelines</span></li>
+                            <li><span>Graph Neural Networks</span></li>
+                        </ul>
+                    </div>
+
+                    <div class="footer-column">
+                        <h4 class="footer-col-title">Connect</h4>
+                        <div class="footer-social-icons">
+                            <a href="{{ profile.github }}" target="_blank" rel="noopener noreferrer" class="social-btn" aria-label="GitHub">
+                                <i class="fa-brands fa-github"></i>
+                            </a>
+                            <a href="{{ profile.linkedin }}" target="_blank" rel="noopener noreferrer" class="social-btn" aria-label="LinkedIn">
+                                <i class="fa-brands fa-linkedin-in"></i>
+                            </a>
+                            <a href="{{ profile.kaggle }}" target="_blank" rel="noopener noreferrer" class="social-btn" aria-label="Kaggle">
+                                <i class="fa-brands fa-kaggle"></i>
+                            </a>
+                            <a href="mailto:{{ profile.email }}" class="social-btn" aria-label="Email">
+                                <i class="fa-solid fa-envelope"></i>
+                            </a>
+                        </div>
+                        <p class="footer-email-text">{{ profile.email }}</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="footer-bottom">
+                <div class="footer-copyright">
+                    &copy; {{ current_year }} {{ profile.name }}. Built with <span class="text-gradient">Python Flask</span> &amp; Modern Vanilla CSS.
+                </div>
+                <div class="footer-location">
+                    <i class="fa-solid fa-location-dot"></i> {{ profile.location }}
+                </div>
+                <button class="back-to-top" id="back-to-top" aria-label="Back to top">
+                    <i class="fa-solid fa-arrow-up"></i>
+                </button>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Pass Projects Data to Client-side JavaScript -->
+    <script>
+        window.PORTFOLIO_PROJECTS = {{ (projects or [])|tojson|safe }};
+        window.PROFILE_DATA = {{ (profile or {})|tojson|safe }};
+    </script>
+    
+    <!-- Main Script -->
+    <script src="{{ url_for('static', filename='js/main.js') }}"></script>
+    {% block extra_scripts %}{% endblock %}
+</body>
+</html>
